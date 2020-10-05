@@ -1,36 +1,55 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        lof-front-end
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+    <Header />
+    <EmployeeList
+      :employeeList="employees"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import Header from '../components/Header.vue'
+import EmployeeList from '../components/EmployeeList.vue'
 
-export default Vue.extend({})
+interface Employee{
+  id: Number,
+  employee_name: String,
+  employee_salary: String,
+  employee_age: String,
+  profile_image: String
+}
+
+export default Vue.extend({
+  components:{
+    Header,
+    EmployeeList,
+  },
+
+  created(){
+    this.employees = this.getEmployees()
+  },
+  // async created(){
+  //   this.employees = await this.getEmployees()
+  // },
+
+  data:()=> ({
+    employees: [] as Employee[]
+  }),
+  methods: {
+    getEmployees(): Employee[]{
+      const config = require('../test')
+      return config.data
+    }
+    // async getEmployees(): Promise<Employee[]>{
+    //   const config = await fetch("http://dummy.restapiexample.com/api/v1/employees")
+    //     .then(config => config.json())
+    //   return config
+    // }
+  }
+  
+
+})
 </script>
 
 <style>
